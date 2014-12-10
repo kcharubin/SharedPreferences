@@ -199,10 +199,7 @@ public class Sharedpreferences extends CordovaPlugin {
 			JSONArray rowsArrayResult = new JSONArray();
 			try {
 				Map<String, ?> allEntries = SharedPref.getAll();
-				
 				for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-					
-				  //  Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
 				    JSONObject r = new JSONObject();
 				    r.put(entry.getKey(),  entry.getValue().toString());
 				    rowsArrayResult.put(r);
