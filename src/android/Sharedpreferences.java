@@ -2,9 +2,10 @@ package in.edelworks.sharedpreferences;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ public class Sharedpreferences extends CordovaPlugin {
 	public static final String GET_LONG = "getLong";
 	public static final String REMOVE = "remove";
 	public static final String CLEAR = "clear";
+	public static final String GET_ALL = "getAll";
 	public static final String SHARED_PREFERENCES = "SharedPreferences";
 	public static String PREF_FILE = "";
 	public static final String[] MODE_ARRAY = {"MODE_APPEND", "MODE_PRIVATE"};
@@ -193,6 +195,25 @@ public class Sharedpreferences extends CordovaPlugin {
 			callbackContext.success("Cleared preference File ");
 			
 			return true;
+		}else if (GET_ALL.equals(action)) {
+			JSONArray rowsArrayResult = new JSONArray();
+			try {
+				Map<String, ?> allEntries = SharedPref.getAll();
+				
+				for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+					
+				  //  Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+				    JSONObject r = new JSONObject();
+				    r.put(entry.getKey(),  entry.getValue().toString());
+				    rowsArrayResult.put(r);
+				} 
+			} catch (Exception e){
+				callbackContext.error("Could Not getAll preferences " + e.getMessage());
+				return false;
+			}
+			callbackContext.success(rowsArrayResult);
+			return true;
+
 		}else{
 			callbackContext.error("Invalid Action");
 			return false;
