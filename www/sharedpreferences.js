@@ -34,6 +34,9 @@ var sharedpreferences = {
 	},
 	clear: function(successCallback, errorCallback){
 		cordova.exec(successCallback, errorCallback, 'Sharedpreferences', 'clear', ["null"])
+	},
+	getAll: function(successCallback, errorCallback){
+		cordova.exec(successCallback, errorCallback, 'Sharedpreferences', 'getAll', ["null"])
 	}
 }
 
